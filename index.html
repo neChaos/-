@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<button id="button">提交</button>
+<script type="text/javascript" src="lz-string.min.js"></script>
+<script type="text/javascript" src='jq.js'></script>
+<script type="text/javascript">
+//[{"u": "100050","s": "sss","cs1": "123456","d": "miaomiaoz.com","p": "home","q": "bak","n": "boot","t": "cstm","tm": now,"ptm": now,"e": {"page_domain": "taobao.com"}}];
+var t = String.fromCharCode
+              , e = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
+              compressToUint8Array=function(t) {
+                    for (var e = compress(t), n = new Uint8Array(2 * e.length), i = 0, o = e.length; o > i; i++) {
+                        var a = e.charCodeAt(i);
+                        n[2 * i] = a >>> 8,
+                        n[2 * i + 1] = a % 256
+                    }
+                    return n
+                };
+	$('#button').click(
+		setInterval(
+			function(){
+				var now = new Date().getTime();
+				json1=[{u: "100050",s: "sss",cs1: "123456",d: "miaomiaoz.com",p: "home",q: "bak",n: "boot",t: "cstm",tm: now,ptm: now,e: {page_domain: "taobao.com"}}];
+				json = JSON.stringify(json1);
+				console.log(json);
+
+				
+				$.ajax({
+					type:"POST",
+					url:"https://api.growingio.com/custom/bbea127db50b62c2/web/events?"+now,
+					contentType: "text/plain",
+					data: compressToUint8Array(json),
+					success:function(data){
+						console.log(data);
+					}
+				})
+			},1000)
+	)
+
+
+</script>
+</body>
+</html>
